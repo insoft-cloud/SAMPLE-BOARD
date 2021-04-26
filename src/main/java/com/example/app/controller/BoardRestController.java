@@ -41,7 +41,6 @@ public class BoardRestController {
 //		boardDao.write(boardDto);
 //
 //	}
-
 	@RequestMapping(value = "/write", method = { RequestMethod.GET, RequestMethod.POST })
 	public ResponseEntity<String> write(@RequestBody BoardDto boardDto) throws Exception {	//ResponseEntity 결과 데이터와 응답코드 반환가능.
 		ResponseEntity<String> entity = null; //@RequestBody : 리턴 값을 HTTP 응답 데이터로 사용.
