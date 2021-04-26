@@ -4,7 +4,7 @@ RESTful API를 이용하여 간단한 CRUD의 기능을 구현한 게시판입�
 
 
 ## 패키지 설명
-- com.example.app.controller      Client의 요청을 받아 게시판에 대한 RequestMapping을 실행하여 Service를 호출하고 응답을 전달합니다.
+- com.example.app.controller      Client의 요청을 받아 RequestMapping을 실행하여 Service를 호출하고 응답을 전달합니다.
 
 - com.example.app.entity          DB에서 데이터를 얻어 게시판에 대한 Service와 Controller로 보낼 때 사용합니다.
 
