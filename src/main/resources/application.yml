@@ -1,0 +1,23 @@
+server:
+  port: 8080
+  context-path: "/"
+
+    
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://localhost:3306/sampleapp?autoReconnect=true
+    url: jdbc:mysql://172.30.200.27:3306/portaldb?useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=UTF-8&autoReconnect=true
+    username: root
+    password: t1P@eoalsxhdgkq
+
+    
+  spring:
+    mvc:
+      view:
+        prefix: /WEB-INF/views/
+        suffix: .html
+mybatis:
+      type-aliases.package: com.example.app.repository
+      mapper-locations: classpath:mybatis/*-.xml
+      configLocation: classpath:mybatis/mybatis-config.xml

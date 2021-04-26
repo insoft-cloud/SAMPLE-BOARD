@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>board</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jQuery.serializeObject/2.0.3/jquery.serializeObject.min.js"></script>
+    <link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+	integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
+	crossorigin="anonymous">
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+      <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+</head>
+<script>
+    $(function() {
+        axios.get('/board/list', {
+        })
+            .then(function (response) {
+                let tb = $("<tbody/>"); //tb = <tbody>
+                console.log(response)
+                for(var i in response.data) {
+                    console.log(response.data)
+                    //i만큼
+                    let $board_no = response.data[i].board_no
+                    let $board_title = response.data[i].board_title
+                    let $board_text = response.data[i].board_text
+                    let $board_name = response.data[i].board_name
+
+                    var row = $("<tr/>").append(
+                        '<td ><a href='+'detail.html?'+$board_no+'>' + $board_no + '</a></td>'+
+                        '<td>'+$board_name+'</td>'+
+                        '<td>'+$board_text+'</td>'+
+                        '<td>'+$board_title+'</td>'
+													
+                    )
+                    tb.append(row); //append row ( html ) 추가
+                }
+                $(".thead").after(tb); //thead 뒤에 tb= <tbody> 추가 
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+            .finally(function () {
+                // always executed
+            });
+    })
+
+</script>
+<body>
+<div class="container">
+    <h2>게시글 목록</h2>
+    <table class="table table-hover">
+        <colgroup>
+            <col width="15%"/>
+            <col width="15%"/>
+            <col width="15%"/>
+            <col width="30%"/>
+        </colgroup>
+        <thead class="thead">
+        <tr>
+            <th scope="col">글번호</th>
+            <th scope="col">작성자</th>
+            <th scope="col">제목</th>
+            <th scope="col">내용</th>
+        </tr>
+        </thead>
+       
+    </table>
+    <a href="/board/write.html" class="btn btn-primary btn-lg font-weight-bold ml-3 mr-3" class="btn">게시글 작성하기</a>
+     <a href="/board/index.html" class="btn btn-primary btn-lg font-weight-bold ml-3 mr-3" class="btn">첫 페이지로</a>
+</div>
+</body>
+</html>

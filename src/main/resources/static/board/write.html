@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+		integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+		integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+		crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+		integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+		crossorigin="anonymous"></script>
+</head>
+<script type="text/javascript">
+    function register() {
+
+        var str = document.getElementById('board_name');
+
+
+
+        if (str.value == '' || str.value == null) { //ex : 작성자에 입력이 안되었을때 실행
+            alert('이름을 입력해주세요');
+            return false;
+        }
+
+        var blank_pattern = /^\s+|\s+$/g; //ex : 스페이스만 입력했을때 실행
+        if (str.value.replace(blank_pattern, '') == "") {
+            alert(' 공백만 입력되었습니다 ');
+            return false;
+        }
+
+
+
+        //공백 금지
+        //var blank_pattern = /^\s+|\s+$/g;(/\s/g
+        var blank_pattern = /[\s]/g;
+        if (blank_pattern.test(str.value) == true) {
+            alert(' 공백은 사용할 수 없습니다. ');
+            return false;
+        }
+
+
+        var special_pattern = /[`~!@#$%^&*|\\\'\";:\/?]/gi;
+
+        if (special_pattern.test(str.value) == true) { //특수문자가 들어갔을때 실행
+            alert('특수문자는 사용할 수 없습니다.');
+            return false;
+        }
+
+    
+        	const board_no = document.getElementById("board_no");
+            const board_name = document.getElementById("board_name");
+            const board_title = document.getElementById("board_title");
+            const board_text = document.getElementById("board_text");
+
+            axios({
+                method: "POST",
+                url: '/board/write',
+                data: {
+                    "board_no": board_no.value,
+                    "board_name": board_name.value,
+                    "board_title": board_title.value,
+                    "board_text": board_text.value
+
+                }
+            }).then((res) => {
+                console.log(res);
+                alert("작성이 완료 되었습니다");
+                location.href = "/board/list.html";
+
+
+            }).catch(error => {
+                console.log(error);
+                throw new Error(error);
+            });
+        
+    }
+</script>
+</head>
+<h1>write</h1>
+
+<body>
+    <table class="table table-hover">
+        <tr>
+            <td></td>
+            <td><input name="board_no" class="form-control" id="board_no" type="hidden"></td>
+        </tr>
+        <tr>
+            <td>작성자</td>
+            <td><input name="board_name" class="form-control" id="board_name" type="text"></td>
+        </tr>
+        <tr>
+            <td>제목</td>
+            <td><textarea name="board_title" class="form-control" id="board_title"></textarea></td>
+        </tr>
+        <tr>
+            <td>내용</td>
+            <td> <textarea name="board_text" class="form-control" id="board_text"></textarea></td>
+        </tr>
+        <tr>
+            <td>
+                <button type="submit" id="submit" class="btn btn-primary btn-lg font-weight-bold ml-3 mr-3"
+                    onclick="register()">작성하기</button>
+            </td>
+            <td>
+                <a href="/board/list.html" class="btn btn-primary btn-lg font-weight-bold ml-3 mr-3" class="btn">돌아가기</a>
+            </td>
+        </tr>
+    </table>
+</body>

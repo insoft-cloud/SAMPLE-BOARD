@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.app.repository.BoardDao">
+
+
+	<!-- 작성 -->
+
+	<insert id="write"
+		parameterType="com.example.app.entity.BoardDto">
+		insert into board_oh
+		values(0,#{board_name},#{board_title},#{board_text})
+	</insert>
+
+
+	<!-- 리스트 -->
+
+	<select id="list"
+		resultType="com.example.app.entity.BoardDto">
+		select * from board_oh
+	</select>
+
+
+
+	<!-- 수정 -->
+	<update id="update"
+		parameterType="com.example.app.entity.BoardDto">
+		update board_oh set BOARD_title=#{board_title}
+		,board_text=#{board_text}
+		where board_no=#{board_no}
+	</update>
+
+
+
+	<!-- 삭제 -->
+	<delete id="delete" parameterType="int">
+		delete from board_oh where
+		board_no =#{board_no}
+	</delete>
+
+
+	<!-- 하나만 조회 -->
+	<select id="detail" parameterType="int"
+		resultType="com.example.app.entity.BoardDto">
+		SELECT * FROM board_oh WHERE board_no = #{board_no}
+	</select>
+</mapper>

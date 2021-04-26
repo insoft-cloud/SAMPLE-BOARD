@@ -1,0 +1,130 @@
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+		integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+		integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+		crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+		integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+		crossorigin="anonymous"></script>
+</head>
+<script type="text/javascript">
+
+        let url = location.href;
+        let board_no = url.substring(url.lastIndexOf("?") + 1);
+
+
+        var url2 = "detail/" + board_no;
+        window.onload = function () {
+
+            axios.get(url2).then(
+                (response) => {
+                    let $board_no = response.data.board_no
+                    let $board_name = response.data.board_name
+                    let $board_title = response.data.board_title
+                    let $board_text = response.data.board_text
+                    console.log($board_no)
+
+
+                    document.getElementById("board_name").value = $board_name
+                    document.getElementById("board_title").value = $board_title
+                    document.getElementById("board_text").value = $board_text
+
+                    var board = {};
+                    board = response.data;
+
+                });
+
+
+            $("#board_name").val(board_name);
+            $("#board_title").val(board_title);
+            $("#board_text").val(board_text);
+            $("#board_no").val(board_no);
+
+            $("#submit").on("click", function () { //id = submit 버튼을 누르면 삭제완료
+
+                var $board_no = $("#board_no").val();
+                var $board_name = $("#board_name").val();
+                var $board_title = $("#board_title").val();
+                var $board_text = $("#board_text").val();
+                axios.request({
+
+                    url: '/board/put/' + $board_no,
+                    method: "put",
+                    data: {
+                        "board_no": board_no,
+                        "board_title": board_title.value,
+                        "board_text": board_text.value
+                    }
+                }).then(function (response) {
+                    console.log("성공");
+                    alert("성공");
+                    location.href = "/board/list.html"; // 수정이 완료되면  list 페이지로 이동한다.
+                }).catch(function (error) {
+                    console.log("실패");
+                    alert("실패");
+                }).then(function () {
+                    // 항상 실행
+                });
+            });
+
+            $("#del").on("click", function () {  //id = del 버튼을 누르면 삭제완료
+                axios({
+                    method: "DELETE",
+                    url: '/board/delete/' + board_no, // axios 는 {board_no} 가 아닌 board_no
+                    data: {
+                        "board_no": board_no //board_no를 통해 삭제를 한다.
+                    }
+                }).then((res) => {
+                    alert("삭제ok"); //작성에 성공하는 알림창을 띄운다.
+
+                    console.log(res);
+                    location.href = "/board/list.html"; // 삭제가 완료되면 list 페이지로 이동한다.
+                }).catch(error => {
+                    alert("삭제 fail");
+                    console.log(error);
+                    throw new Error(error);
+                });
+            })
+
+        };
+
+
+
+    </script>
+    <h1>detail</h1>
+
+<body>
+    <table class="table table-hover">
+        <tr>
+            <td>글번호</td>
+            <td><input name="board_no" id="board_no" type="text" class="form-control" readonly="readonly"></td>
+        </tr>
+        <tr>
+            <td>작성자</td>
+            <td><input name="board_name" id="board_name" type="text" class="form-control" readonly="readonly"></td>
+        </tr>
+        <tr>
+            <td>제목</td>
+            <td><textarea name="board_title" id="board_title" class="form-control"></textarea></td>
+        </tr>
+        <tr>
+            <td>내용</td>
+            <td><textarea name="board_text" id="board_text" class="form-control"></textarea></td>
+        </tr>
+        <tr>
+            <td><button type="submit" id="submit"
+                    class="btn btn-primary btn-lg font-weight-bold ml-3 mr-3">수정하기</button>
+            <button type="button" id="del" class="btn btn-primary btn-lg font-weight-bold ml-3 mr-3">삭제하기</button>
+            </td>
+        </tr>
+    </table>
+</body>

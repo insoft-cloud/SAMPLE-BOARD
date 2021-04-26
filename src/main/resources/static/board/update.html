@@ -1,0 +1,78 @@
+<html lang="en">
+
+<head>
+	<meta charset="EUC-KR">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+		integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+		integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+		crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+		integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+		crossorigin="anonymous"></script>
+</head>
+<script type="text/javascript">
+
+
+
+	function put() {
+
+		var $board_no = $("#board_no").val();
+		var $board_name = $("#board_name").val();
+		var $board_title = $("#board_title").val();
+		var $board_text = $("#board_text").val();
+		axios.request({
+
+			url: '/board/put/' + $board_no,
+			method: "put",
+			data: {
+				"board_no": board_no.value,
+				"board_name": board_name.value,
+				"board_title": board_title.value,
+				"board_text": board_text.value
+			}
+		}).then(function (response) {
+			console.log("성공");
+			alert("성공");
+			location.href = "/board/list.html";
+		}).catch(function (error) {
+			console.log("실패");
+			alert("실패");
+		}).then(function () {
+			// 항상 실행
+		});
+	}
+
+</script>
+<h1>Update</h1>
+
+<body>
+		<table class="table table-hover">
+			<tr>
+				<td>번호</td>
+				<td><input name="board_no" class="form-control" id="board_no" type="text" placeholder="수정할 번호를 입력하세요.">
+				</td>
+			</tr>
+			<tr>
+				<td>작성자</td>
+				<td><input name="board_name" class="form-control" id="board_name" type="text" placeholder=""></td>
+			</tr>
+			<tr>
+				<td>제목</td>
+				<td><textarea name="board_title" class="form-control" id="board_title"></textarea></td>
+			</tr>
+			<tr>
+				<td>내용</td>
+				<td><textarea name="board_text" class="form-control" id="board_text"></textarea></td>
+			</tr>
+			<tr>
+				<td><button type="submit" class="btn btn-primary btn-lg font-weight-bold ml-3 mr-3" id="submit"
+						onclick="put()">수정하기</button></td>
+			</tr>
+		</table>
+</body>
